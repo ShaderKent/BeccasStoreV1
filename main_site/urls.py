@@ -25,5 +25,6 @@ from store import urls as store_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include(store_urls, namespace="store")),
+    path("", include(store_urls, namespace="home")), #Currently store and home are the same
+    path("store/", include(store_urls, namespace="store")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

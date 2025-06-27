@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import StoreView
+from . import views
 
 app_name = "store"
 
 urlpatterns = [
-    path("", StoreView.as_view(), name="store"),
+    path("", views.StoreView.as_view(), name="store"),
+    path("c/<str:category_name>/", views.CategoryView.as_view(), name="products_by_category"),
 ]
