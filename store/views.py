@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Product
 
 class StoreView (ListView):
@@ -15,6 +15,10 @@ class CategoryView (ListView):
     ordering = ["-created_date"]
     
     def get_queryset(self, *args, **kwargs):
-        # if self.kwargs.get("category_name", None):
         return Product.objects.filter(category__slug__icontains=self.kwargs.get("category_name"), is_available=True)
-        # else:
+        
+class DetailedProductView (DetailView):
+    model = Product
+    template_name = "product_details.html"
+    context_object_name = "product"
+    
