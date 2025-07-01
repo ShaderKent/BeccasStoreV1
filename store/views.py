@@ -1,4 +1,5 @@
 from django.views.generic import ListView, DetailView
+
 from .models import Product
 
 class StoreView (ListView):
@@ -7,7 +8,7 @@ class StoreView (ListView):
     context_object_name = "products"
     ordering = ["-created_date"] 
     queryset = Product.objects.all().filter(is_available=True)
-
+    
 class CategoryView (ListView):
     model = Product
     template_name = "store.html"

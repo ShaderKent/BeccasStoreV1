@@ -8,8 +8,8 @@
 		<div class="min-w-[250px] relative flex items-end justify-start w-full text-left bg-gray-500 dark:bg-gray-500 bg-center bg-cover h-72" style="background-image: url({{product.image1.url}});">
 		<a href="{% url 'store:product_details' product.slug %}">
 			<div class="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b via-transparent dark:via- from-gray-900 dark:from-gray-50 to-gray-900 dark:to-gray-50"></div>
-			<div class="absolute top-0 left-0 right-0 flex items-center justify-between mx-5 mt-3">
-				<a rel="noopener noreferrer" href="{% url 'store:product_details' product.slug %}" class="px-3 py-2 text-xs font-semibold tracking-wider uppercase text-gray-100 dark:text-gray-800 bg-purple-600 dark:bg-purple-400">More Info</a>
+			<div class="absolute top-0 left-0 right-0 flex items-start mx-3 mt-3">
+				<a rel="noopener noreferrer" href="{% url 'store:product_details' product.slug %}" class="mr-3 px-2 py-2 text-xs font-semibold tracking-wider uppercase text-gray-100 dark:text-gray-800 bg-purple-600 dark:bg-purple-400">More Info</a>
 				<div class="flex flex-col justify-start text-center text-gray-100 dark:text-gray-800">
 					<span class="text-3xl font-semibold leading-none tracking-wide">${{product.price}}</span>
 				</div>

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="flex flex-col w-full">
+    <!--Hero-->
+<!-- Container -->
+<div class="relative flex flex-col h-[85vh] items-center mr-auto ml-5 lg:flex-row-reverse lg:max-w-5xl lg:mt-2 xl:max-w-6xl">
+
+    <!-- Image Column -->
+    <div class="w-full h-64 lg:w-1/2 lg:h-auto">
+        <img class="h-full w-full object-cover" src="{% static 'images/hero_placeholder.jpg' %}" alt="Thrifting banner">
+    </div>
+    <!-- Close Image Column -->
+
+    <!-- Text Column -->
+    <div
+        class="max-w-lg bg-white md:max-w-2xl md:z-10 md:shadow-lg md:absolute md:top-0 md:mt-48 lg:w-3/5 lg:left-0 lg:mt-20 lg:ml-20 xl:mt-24 xl:ml-12">
+        <!-- Text Wrapper -->
+        <div class="flex flex-col p-12 md:px-16">
+            <h2 class="text-2xl font-medium uppercase text-green-800 lg:text-4xl">Welcome to Becca's Treasures</h2>
+            <p class="mt-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat.
+            </p>
+            <!-- Button Container -->
+            <div class="mt-8">
+                <a href="#"
+                    class="inline-block w-full text-center text-lg font-medium text-gray-100 bg-purple-600 border-solid border-2 rounded  py-4 px-10 hover:bg-purple-800 hover:shadow-md md:w-48">Read
+                    More</a>
+            </div>
+        </div>
+        <!-- Close Text Wrapper -->
+    </div>
+
+
+    <div
+    class="max-w-md bg-gray-200 md:max-w-sm md:z-12 md:shadow-lg md:absolute md:bottom-0 md:left-0 lg:w-3/5 lg:left-0 lg:mt-30 lg:ml-20 xl:mt-24 xl:ml-12">
+    <!-- Text Wrapper -->
+    <div class="flex flex-col p-6 md:pl-15">
+        <h2 class="text-lg font-medium uppercase text-green-800 lg:text-xl">Shop By Category Below</h2>
+    </div>
+    <!-- Close Text Wrapper -->
+    </div>
+    <!-- Close Text Column -->
+</div>
+
+<hr class="my-10">
+<!--Shop By Categories-->
+<h1 class="w-100 rounded mx-auto text-center text-xl font-bold uppercase bg-purple-600 text-white">Treasures for the finding</h1>
+<div class="max-w-screen-xl mt-6 p-5 mx-auto bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+	<div class="grid grid-cols-1 gap-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2">
+		{% for category in categories %}
+		<div class="min-w-[250px] relative flex items-end justify-start w-full text-left bg-gray-500 dark:bg-gray-500 bg-center bg-cover h-72" style="background-image: url({{category.get_url}});">
+		<a href="{% url "store:products_by_category" category.slug %}">
+			<div class="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b via-transparent dark:via- from-gray-900 dark:from-gray-50 to-gray-900 dark:to-gray-50"></div>
+			<div class="absolute top-0 left-0 right-0 flex mx-5 mt-5">
+				<a rel="noopener noreferrer" href="{% url "store:products_by_category" category.slug %}" class="px-3 py-2 text-xs font-semibold tracking-wider uppercase text-gray-100 dark:text-gray-800 bg-purple-600 dark:bg-purple-400">Browse</a>
+				<div class="flex flex-col justify-start text-center text-gray-100 dark:text-gray-800">
+					{% comment %} <span class="text-3xl font-semibold leading-none tracking-wide">{{category.category_name}}</span> {% endcomment %}
+				</div>
+			</div>
+			<h2 class="z-10 p-5">
+				<a rel="noopener noreferrer" href="{% url "store:products_by_category" category.slug %}" class="px-3 py-2 text-xs font-semibold tracking-wider uppercase text-gray-100 dark:text-gray-800 bg-purple-600 dark:bg-purple-400">{{category.category_name}}</a>
+			</h2>
+		</a>
+		</div>
+        {% endfor %}
+
+<div>
+{% endblock %}

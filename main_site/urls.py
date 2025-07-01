@@ -21,10 +21,11 @@ from django.conf import settings
 
 from django.conf.urls.static import static
 from store import urls as store_urls
+from home import urls as home_urls
 
 
 urlpatterns = [
+    path("", include(home_urls, namespace="home")),
     path('admin/', admin.site.urls),
-    path("", include(store_urls, namespace="home")), #Currently store and home are the same
     path("store/", include(store_urls, namespace="store")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
