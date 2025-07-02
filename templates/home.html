@@ -15,9 +15,9 @@
 
     <!-- Text Column -->
     <div
-        class="max-w-lg bg-white md:max-w-2xl md:z-10 md:shadow-lg md:absolute md:top-0 md:mt-48 lg:w-3/5 lg:left-0 lg:mt-20 lg:ml-20 xl:mt-24 xl:ml-12">
+        class="max-w-lg bg-white lg:max-w-2xl lg:z-10 lg:shadow-lg lg:absolute lg:top-0 lg:mt-48 lg:w-3/5 lg:left-0 lg:mt-20 lg:ml-20 xl:mt-24 xl:ml-12">
         <!-- Text Wrapper -->
-        <div class="flex flex-col p-12 md:px-16">
+        <div class="flex flex-col p-12 lg:px-16">
             <h2 class="text-2xl font-medium uppercase text-green-800 lg:text-4xl">Welcome to Becca's Treasures</h2>
             <p class="mt-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -27,7 +27,7 @@
             <!-- Button Container -->
             <div class="mt-8">
                 <a href="#"
-                    class="inline-block w-full text-center text-lg font-medium text-gray-100 bg-purple-600 border-solid border-2 rounded  py-4 px-10 hover:bg-purple-800 hover:shadow-md md:w-48">Read
+                    class="inline-block w-full text-center text-lg font-medium text-gray-100 bg-purple-600 border-solid border-2 rounded  py-4 px-10 hover:bg-purple-800 hover:shadow-lg lg:w-48">Read
                     More</a>
             </div>
         </div>
@@ -36,9 +36,9 @@
 
 
     <div
-    class="max-w-md bg-gray-200 md:max-w-sm md:z-12 md:shadow-lg md:absolute md:bottom-0 md:left-0 lg:w-3/5 lg:left-0 lg:mt-30 lg:ml-20 xl:mt-24 xl:ml-12">
+    class="max-w-lg bg-gray-200 lg:max-w-sm lg:z-12 lg:shadow-lg lg:absolute lg:bottom-0 lg:left-0 lg:w-3/5 lg:left-0 lg:mt-30 lg:ml-20 xl:mt-24 xl:ml-12">
     <!-- Text Wrapper -->
-    <div class="flex flex-col p-6 md:pl-15">
+    <div class="flex flex-col p-6 lg:pl-15">
         <h2 class="text-lg font-medium uppercase text-green-800 lg:text-xl">Shop By Category Below</h2>
     </div>
     <!-- Close Text Wrapper -->
@@ -46,11 +46,11 @@
     <!-- Close Text Column -->
 </div>
 
-<hr class="md:my-10 my-30">
+<hr class="lg:my-10 lg:my-30 my-40">
 
 <!--Shop By Categories-->
-<h1 class="w-100 rounded mx-auto text-center text-xl font-bold uppercase bg-purple-600 text-white">Treasures for the finding</h1>
-<div class="max-w-screen-xl mt-6 p-5 mx-auto bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+<h1 class="lg-mt-0 w-100 rounded mx-auto text-center text-xl font-bold uppercase bg-purple-600 text-white">Treasures for the finding</h1>
+<div class="max-w-screen-xl lg:mt-6 mt-20 p-5 mx-auto bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
 	<div class="grid grid-cols-1 gap-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2">
 		{% for category in categories %}
 		<div class="min-w-[250px] relative flex items-end justify-start w-full text-left bg-gray-500 dark:bg-gray-500 bg-center bg-cover h-72" style="background-image: url({{category.get_url}});">

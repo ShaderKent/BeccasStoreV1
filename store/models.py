@@ -9,6 +9,7 @@ class Product(models.Model):
     description_full = models.TextField(max_length=500, blank=True)
     slug = models.CharField(max_length=200, unique=True)
     price = models.FloatField()
+    weight = models.FloatField(default=0.0)
     stock = models.IntegerField()
     image1 = models.ImageField(upload_to="photos/products", blank=True)
     image2 = models.ImageField(upload_to="photos/products", blank=True)
@@ -28,7 +29,6 @@ class Product(models.Model):
                 return image
         except: 
             return "#"
-
-    
+          
     def __str__(self):
         return self.product_name

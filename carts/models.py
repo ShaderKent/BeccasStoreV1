@@ -8,7 +8,6 @@ class Cart(models.Model):
 
     def __str__(self):
         return self.cart_id
-    
 
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -17,5 +16,7 @@ class CartItem(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.product
+        return self.product.product_name
     
+    def sub_total(self):
+        return self.quantity * self.product.price

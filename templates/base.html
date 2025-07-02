@@ -18,10 +18,11 @@
             <div class="flex fixed z-100 justify-between h-16 px-10 w-full self-center bg-white border-b-2">
                 <ul class="items-stretch hidden space-x-3 lg:flex">
                     <li class="flex">
-                        <a rel="noopener noreferrer" href="#" class="flex items-center px-4 -mb-1 border-b-2 border-transparent dark:border- dark:border- text-purple-600 dark:text-purple-400 text-purple-600 dark:text-purple-400 border-purple-600 dark:border-purple-400 border-purple-600 dark:border-purple-400">Link</a>
+                        <a rel="noopener noreferrer" href="{% url "carts:cart" %}" class="flex items-center px-4 -mb-1 border-b-2 border-transparent dark:border- dark:border- text-purple-600 dark:text-purple-400 text-purple-600 dark:text-purple-400 border-purple-600 dark:border-purple-400 border-purple-600 dark:border-purple-400">Cart</a>
                     </li>
                     <li class="flex">
-                        <a rel="noopener noreferrer" href="#" class="flex items-center px-4 -mb-1 border-b-2 border-transparent dark:border- dark:border-">Link</a>
+                        <a rel="noopener noreferrer" href="#" class="flex items-center px-4 -mb-1 border-b-2 border-transparent dark:border- dark:border-">
+                        </a>
                     </li>
                     <li class="flex">
                         <a rel="noopener noreferrer" href="#" class="flex items-center px-4 -mb-1 border-b-2 border-transparent dark:border- dark:border-">Link</a>
@@ -33,7 +34,7 @@
                         <path d="M22.094 19.451h-0.758c-0.188 0-0.363 0.049-0.515 0.135l0.006-0.004-4.574 2.512-5.282-3.049v-6.082l5.282-3.051 4.576 2.504c0.146 0.082 0.323 0.131 0.508 0.131h0.758c0.293 0 0.529-0.239 0.529-0.531v-0.716c0-0.2-0.11-0.373-0.271-0.463l-0.004-0.002-5.078-2.777c-0.293-0.164-0.645-0.26-1.015-0.26-0.39 0-0.756 0.106-1.070 0.289l0.010-0.006-5.281 3.049c-0.636 0.375-1.056 1.055-1.059 1.834v6.082c0 0.779 0.422 1.461 1.049 1.828l0.009 0.006 5.281 3.049c0.305 0.178 0.67 0.284 1.061 0.284 0.373 0 0.723-0.098 1.027-0.265l-0.012 0.006 5.080-2.787c0.166-0.091 0.276-0.265 0.276-0.465v-0.716c0-0.293-0.238-0.529-0.529-0.529z"></path>
                     </svg>
                 </a>
-                <div class="flex items-center md:space-x-4">
+                <div class="flex items-center lg:space-x-4">
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-2">
                             <button type="submit" title="Search" class="p-1 focus:outline-none focus:ring">
@@ -42,7 +43,7 @@
                                 </svg>
                             </button>
                         </span>
-                        <input type="search" name="Search" placeholder="Search..." class="w-32 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none bg-gray-100 dark:bg-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-gray-800 dark:text-gray-100 focus:bg-gray-50 focus:dark:bg-gray-900 focus:bg-gray-50 focus:dark:bg-gray-900">
+                        <input type="search" name="Search" placeholder="Search..." class="w-32 py-2 pl-10 text-sm rounded-lg sm:w-auto focus:outline-none bg-gray-100 dark:bg-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-gray-800 dark:text-gray-100 focus:bg-gray-50 focus:dark:bg-gray-900 focus:bg-gray-50 focus:dark:bg-gray-900">
                     </div>
                     <button type="button" class="hidden px-6 py-2 font-semibold rounded lg:block text-gray-50 dark:text-gray-900 text-gray-50 dark:text-gray-900 bg-purple-600 dark:bg-purple-400 bg-purple-600 dark:bg-purple-400">Log in</button>
                 </div>
@@ -54,30 +55,30 @@
             </div>
         </header>
         <!-- Navbar -->
-        <div class="md:flex flex-col md:flex-row md:min-h-screen w-full mt-14">
-            <div @click.away="open = true" class=" mt-2 flex flex-col w-full md:w-64 text-gray-700 bg-gray-200 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0" x-data="{ open: false }">
+        <div class="flex flex-col lg:flex-row lg:min-h-screen w-full mt-14">
+            <div @click.away="open = false" class=" mt-2 flex flex-col w-full lg:w-64 text-gray-700 bg-gray-200 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0" x-data="{ open: false }">
                 <div class="flex-shrink-0 px-8 py-4 flex flex-row items-center justify-between">
-                    <button class="rounded-lg md:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="open = !open">
+                    <button class="rounded-lg lg:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="open = !open">
                     <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
                         <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
                         <path x-show="open" fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                     </svg>
                     </button>
                 </div>
-                <nav :class="{'block': open, 'hidden': !open}" class="md:fixed flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto min-h-[80%]">
+                <nav :class="{'block': open, 'hidden': !open}" class="lg:fixed flex-grow lg:block px-4 pb-4 lg:pb-0 lg:overflow-y-auto min-h-[80%]">
                     <a class="block px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg dark-mode:bg-gray-700 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-white hover:bg-gray-100 focus:bg-purple-600 focus:outline-none focus:shadow-outline" href="/">Home</a>
                     <a class="block px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-white hover:bg-gray-100 focus:bg-purple-600 focus:outline-none focus:shadow-outline" href="{% url "store:store" %}">Store</a>
                     <a class="block px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-white hover:bg-gray-100 focus:bg-purple-600 focus:outline-none focus:shadow-outline" href="#">About</a>
                     <a class="block px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-white hover:bg-gray-100 focus:bg-purple-600 focus:outline-none focus:shadow-outline" href="#">Contact</a>
                     <div @click.away="open = false" class="relative" x-data="{ open: false }">
-                        <button @click="open = !open" class="md:visible invisible flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:block hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                        <button @click="open = !open" class="lg:visible invisible flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 lg:block hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
                         <span>Shop By Category</span>
-                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform lg:-mt-1"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
-                        <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg">
-                            <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
+                        <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-2 origin-top-right rounded-lg shadow-lg">
+                            <div class="px-2 py-2 bg-white rounded-lg shadow dark-mode:bg-gray-800">
                                 {% for category in links %}
-                                    <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-white hover:bg-gray-200 focus:bg-purple-600 focus:outline-none focus:shadow-outline" href="{% url "store:products_by_category" category.slug %}">{{category.category_name}}</a>
+                                    <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 lg:mt-0 hover:text-gray-900 focus:text-white hover:bg-gray-200 focus:bg-purple-600 focus:outline-none focus:shadow-outline" href="{% url "store:products_by_category" category.slug %}">{{category.category_name}}</a>
                                 {% endfor %}
                             </div>
                         </div>
