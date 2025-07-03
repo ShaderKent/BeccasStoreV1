@@ -18,7 +18,8 @@
             <div class="flex fixed z-100 justify-between h-16 px-10 w-full self-center bg-white border-b-2">
                 <ul class="items-stretch hidden space-x-3 lg:flex">
                     <li class="flex">
-                        <a rel="noopener noreferrer" href="{% url "carts:cart" %}" class="flex items-center px-4 -mb-1 border-b-2 border-transparent dark:border- dark:border- text-purple-600 dark:text-purple-400 text-purple-600 dark:text-purple-400 border-purple-600 dark:border-purple-400 border-purple-600 dark:border-purple-400">Cart</a>
+                        <a rel="noopener noreferrer" href="{% url "carts:cart" %}" class="flex items-center px-4 -mb-1 border-b-2 border-transparent dark:border- dark:border- text-purple-600 dark:text-purple-400 text-purple-600 dark:text-purple-400 border-purple-600 dark:border-purple-400 border-purple-600 dark:border-purple-400">
+                        </a>
                     </li>
                     <li class="flex">
                         <a rel="noopener noreferrer" href="#" class="flex items-center px-4 -mb-1 border-b-2 border-transparent dark:border- dark:border-">
@@ -55,7 +56,7 @@
             </div>
         </header>
         <!-- Navbar -->
-        <div class="flex flex-col lg:flex-row lg:min-h-screen w-full mt-14">
+        <div class="flex flex-col lg:flex-row lg:min-h-screen w-[100vw] mt-14">
             <div @click.away="open = false" class=" mt-2 flex flex-col w-full lg:w-64 text-gray-700 bg-gray-200 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0" x-data="{ open: false }">
                 <div class="flex-shrink-0 px-8 py-4 flex flex-row items-center justify-between">
                     <button class="rounded-lg lg:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="open = !open">

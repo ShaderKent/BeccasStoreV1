@@ -1,6 +1,9 @@
+from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
 
-from .models import Product
+from carts.models import CartItem
+from carts.views import _cart_id
+from store.models import Product
 
 class StoreView (ListView):
     model = Product
@@ -22,4 +25,13 @@ class DetailedProductView (DetailView):
     model = Product
     template_name = "product_details.html"
     context_object_name = "product"
+    
+    def get_context_data(self,**kwargs):
+        context = super(DetailedProductView, self).get_context_data(**kwargs)
+        current_product = Product.objects.get(slug=self.kwargs.get("slug"))
+        in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(self.request), product=current_product).exists()
+        context['in_cart'] = in_cart
+        return context
+
+
     

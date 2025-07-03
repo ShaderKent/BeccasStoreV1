@@ -10,7 +10,7 @@
                         
                         <!-- Carousel -->
                         <div id="default-carousel" class="relative rounded-lg overflow-hidden shadow-lg" data-carousel="static">
-                            <div class="relative h-80 md:h-96" data-carousel-inner>
+                            <div class="relative min-w-[400px] h-80 md:h-96" data-carousel-inner>
                                 
                                 <!-- Only 1 Photo -->
                                 {% if product.image2 != True %}
@@ -104,15 +104,26 @@
                         <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
                     </div>
                 </div>
-                <div class="flex -mx-2 mb-4">
+                <!-- Mobile -->
+                <div class="md:invisible flex -mx-2 mb-4">
+                    {% if in_cart %}
+                    <div class="w-1/2 px-2">
+                        <a href="{% url "carts:cart" %}">
+                            <button class="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">View Cart</button>
+                        </a>
+                    </div>
+                    <div class="w-1/2 px-2">
+                        <a href="{% url "carts:cart" %}">
+                            <button class="w-full bg-purple-600 dark:bg-gray-700 text-white dark:text-white py-2 px-4 rounded-full font-bold">In Cart</button>
+                        </a>
+                    </div>
+                    {% else %}
                     <div class="w-1/2 px-2">
                         <a href="{% url "carts:add_cart" product.id %}">
                             <button class="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">Add to Cart</button>
                         </a>
-                        </div>
-                    <div class="w-1/2 px-2">
-                        <button class="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">Add to Wishlist</button>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="md:flex-1 px-4">
@@ -158,6 +169,27 @@
                     <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">
                        {{product.description_full}}
                     </p>
+                </div>
+                <!--Desktop/Larger Screen-->
+                <div class="invisible md:visible flex -mx-2 mb-4 mt-6 max-w-110 lg:min-w-80">
+                    {% if in_cart %}
+                    <div class="w-1/2 px-2">
+                        <a href="{% url "carts:cart" %}">
+                            <button class="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">View Cart</button>
+                        </a>
+                    </div>
+                    <div class="w-1/2 px-2">
+                        <a href="{% url "carts:cart" %}">
+                            <button class="w-full bg-purple-600 dark:bg-gray-700 text-white dark:text-white py-2 px-4 rounded-full font-bold">In Cart</button>
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="w-1/2 px-2">
+                        <a href="{% url "carts:add_cart" product.id %}">
+                            <button class="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">Add to Cart</button>
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
