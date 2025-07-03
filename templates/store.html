@@ -1,31 +1,44 @@
 {% extends "base.html" %}
 
+
 {% block content %}
+
+<!-- Search View Functionality -->
+{% block search_content %}
+{% endblock %}
 
 <div class="max-w-screen-xl p-5 mx-auto bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
 	<div class="grid grid-cols-1 gap-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2">
-		{% for product in products %}
-		<div class="min-w-[250px] relative flex items-end justify-start w-full text-left bg-gray-500 dark:bg-gray-500 bg-center bg-cover h-72" style="background-image: url({{product.image1.url}});">
-		<a href="{% url 'store:product_details' product.slug %}">
-			<div class="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b via-transparent dark:via- from-gray-900 dark:from-gray-50 to-gray-900 dark:to-gray-50"></div>
-			<div class="absolute top-0 left-0 right-0 flex items-start mx-3 mt-3">
-				<a rel="noopener noreferrer" href="{% url 'store:product_details' product.slug %}" class="mr-3 px-2 py-2 text-xs font-semibold tracking-wider uppercase text-gray-100 dark:text-gray-800 bg-purple-600 dark:bg-purple-400">More Info</a>
-				<div class="flex flex-col justify-start text-center text-gray-100 dark:text-gray-800">
-					<span class="text-3xl font-semibold leading-none tracking-wide">${{product.price}}</span>
-				</div>
+		{% if products %}
+			{% for product in products %}
+			<div class="min-w-[250px] relative flex items-end justify-start w-full text-left bg-gray-500 dark:bg-gray-500 bg-center bg-cover h-72" style="background-image: url({{product.image1.url}});">
+				<a href="{% url 'store:product_details' product.slug %}">
+					<div class="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b via-transparent dark:via- from-gray-900 dark:from-gray-50 to-gray-900 dark:to-gray-50"></div>
+					<div class="absolute top-0 left-0 right-0 flex items-start mx-3 mt-3">
+						<a rel="noopener noreferrer" href="{% url 'store:product_details' product.slug %}" class="mr-3 px-2 py-2 text-xs font-semibold tracking-wider uppercase text-gray-100 dark:text-gray-800 bg-purple-600 dark:bg-purple-400">More Info</a>
+						<div class="flex flex-col justify-start text-center text-gray-100 dark:text-gray-800">
+						<span class="text-3xl font-semibold leading-none tracking-wide">${{product.price}}</span>
+						</div>
+					</div>
+					<h2 class="z-10 p-5">
+						<a rel="noopener noreferrer" href="{% url 'store:product_details' product.slug %}" class="font-medium text-md hover:underline text-gray-100 dark:text-gray-800">{{product.product_name}}</a>
+					</h2>
 			</div>
-			<h2 class="z-10 p-5">
-				<a rel="noopener noreferrer" href="{% url 'store:product_details' product.slug %}" class="font-medium text-md hover:underline text-gray-100 dark:text-gray-800">{{product.product_name}}</a>
-			</h2>
-		</a>
+			{% endfor %}
 		</div>
-		{% endfor %}
-	</div>
+		{% else %}
+		<div class="bg-gray-200 lg:min-w-160 lg:shadow-lg justify-self-center">
+			<div class="flex flex-col p-6 lg:pl-15">
+				<h2 class="text-lg text-center flex-shrink font-medium uppercase text-green-800 lg:text-xl">Sorry... No products found matching that description.</h2>
+				<h2 class="pt-4 text-lg text-center flex-shrink font-medium uppercase text-green-800 lg:text-xl">Please try again.</h2>
+			</div>
+		</div>
+		{% endif %}
 
 	{% if products.has_other_pages %}
 	<nav class="mb-4 flex justify-center gap-4 mt-6" aria-label="Pagination">
 		{% if products.has_previous %}
-		<a class="rounded-lg border border-purple-600 px-2 py-2 text-gray-700"  href="?page={{products.previous_page_number}}">
+		<a class="rounded-lg border border-purple-600 px-2 py-2 text-gray-700" href="?page={{products.previous_page_number}}">
 			<span class="sr-only">Previous</span>
 			<svg class="mt-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
 				aria-hidden="true">
@@ -48,8 +61,6 @@
 		</span>
 		{% endif %}
 		
-
-		
 		{% for i in products.paginator.page_range %}
 		{% if products.number == i %}
 			<span class="rounded-lg border border-purple-600 bg-purple-600 px-4 py-2 text-white">{{i}}</span>
@@ -60,9 +71,6 @@
 		{% endif %}
 		{% endfor %}
 		
-
-
-
 		{% if products.has_next %}
 		<a class="rounded-lg border border-purple-600 px-2 py-2 text-gray-700" href="?page={{products.next_page_number}}">
 			<span class="sr-only">Next</span>
@@ -89,5 +97,6 @@
 	
 	</nav>
 	{% endif %}
+
 </div>
 {% endblock %}

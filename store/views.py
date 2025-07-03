@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
+from django.db.models import Q
 
 from carts.models import CartItem
 from carts.views import _cart_id
@@ -48,6 +49,21 @@ class DetailedProductView (DetailView):
         in_cart = CartItem.objects.filter(cart__cart_id=_cart_id(self.request), product=current_product).exists()
         context['in_cart'] = in_cart
         return context
+    
+class SearchView(ListView):
+    model = Product
+    template_name = "search.html"
+    context_object_name = "products"
 
-
+    def get_queryset(self):
+        queryset = None
+        if "keyword" in self.request.GET:
+            keyword = self.request.GET["keyword"]
+            if keyword:
+                queryset = Product.objects.order_by("-created_date").filter(Q(description_full__icontains=keyword) | Q(description_short__icontains=keyword) | Q(product_name__icontains=keyword))
+        # paginator = Paginator(queryset, 2)
+        # page = self.request.GET.get("page")
+        # paged_products = paginator.get_page(page)
+        
+        return queryset
     
