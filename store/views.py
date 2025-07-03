@@ -5,12 +5,22 @@ from carts.models import CartItem
 from carts.views import _cart_id
 from store.models import Product
 
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+
 class StoreView (ListView):
     model = Product
     template_name = "store.html"
     context_object_name = "products"
     ordering = ["-created_date"] 
-    queryset = Product.objects.all().filter(is_available=True)
+
+    #Handles pagination
+    def get_queryset(self):
+        query_set = Product.objects.all().filter(is_available=True)
+        paginator = Paginator(query_set, 1)
+        page = self.request.GET.get("page")
+        paged_products = paginator.get_page(page)
+        return paged_products
+
     
 class CategoryView (ListView):
     model = Product
@@ -19,8 +29,14 @@ class CategoryView (ListView):
     ordering = ["-created_date"]
     
     def get_queryset(self, *args, **kwargs):
-        return Product.objects.filter(category__slug__icontains=self.kwargs.get("category_name"), is_available=True)
-        
+        #Handles pagination
+        query_set = Product.objects.filter(category__slug__icontains=self.kwargs.get("category_name"), is_available=True,)
+        paginator = Paginator(query_set, 1)
+        page = self.request.GET.get("page")
+        paged_products = paginator.get_page(page)
+        return paged_products
+
+
 class DetailedProductView (DetailView):
     model = Product
     template_name = "product_details.html"
