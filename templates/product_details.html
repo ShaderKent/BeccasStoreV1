@@ -141,29 +141,10 @@
                         {% endif %}
                     </div>
                 </div>
+                
+            
 
-                <!--Option for Colors-->
-                {% comment %} <div class="mb-4">
-                    <span class="font-bold text-gray-700 dark:text-gray-300">Select Color:</span>
-                    <div class="flex items-center mt-2">
-                        <button class="w-6 h-6 rounded-full bg-gray-800 dark:bg-gray-200 mr-2"></button>
-                        <button class="w-6 h-6 rounded-full bg-red-500 dark:bg-red-700 mr-2"></button>
-                        <button class="w-6 h-6 rounded-full bg-blue-500 dark:bg-blue-700 mr-2"></button>
-                        <button class="w-6 h-6 rounded-full bg-yellow-500 dark:bg-yellow-700 mr-2"></button>
-                    </div>
-                </div> {% endcomment %}
 
-                <!--Option for Size-->
-                {% comment %} <div class="mb-4">
-                    <span class="font-bold text-gray-700 dark:text-gray-300">Select Size:</span>
-                    <div class="flex items-center mt-2">
-                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">S</button>
-                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">M</button>
-                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">L</button>
-                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">XL</button>
-                        <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">XXL</button>
-                    </div>
-                </div> {% endcomment %}
                 <div>
                     <span class="font-bold text-gray-700 dark:text-gray-300">Product Description:</span>
                     <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">
@@ -172,7 +153,7 @@
                 </div>
                 <!--Desktop/Larger Screen-->
                 <div class="invisible md:visible flex -mx-2 mb-4 mt-6 max-w-110 lg:min-w-80">
-                    {% if in_cart %}
+                    {% comment %} {% if in_cart %}
                     <div class="w-1/2 px-2">
                         <a href="{% url "carts:cart" %}">
                             <button class="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">View Cart</button>
@@ -183,13 +164,56 @@
                             <button class="w-full bg-green-600 dark:bg-gray-700 text-white dark:text-white py-2 px-4 rounded-full font-bold">In Cart</button>
                         </a>
                     </div>
-                    {% else %}
-                    <div class="w-1/2 px-2">
-                        <a href="{% url "carts:add_cart" product.id %}">
-                            <button class="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">Add to Cart</button>
-                        </a>
+                    {% else %} {% endcomment %}
+                    
+                    <form action="{% url "carts:add_cart" product.id %}" method="POST"> 
+                        {% csrf_token %}
+                        <div class="px-2 flex flex-col gap-3">
+                        <div>
+                            <select  name="color" required class="rounded w-30 form-select hover:bg-gray-100">
+                                <option value="" class="disabled selected">Color</option>
+                                {% for variation in product.variation_set.colors %}
+                                <option value="{{variation.variation_value | lower}}">{{variation.variation_value | capfirst}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div>
+                            <select  name="size" required class="rounded w-30 form-select hover:bg-gray-100">
+                                <option value="" class="disabled selected">Size</option>
+                                {% for variation in product.variation_set.sizes %}
+                                <option value="{{variation.variation_value | lower}}">{{variation.variation_value | capfirst}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% comment %} <div class="mb-4">
+                            <span class="font-bold text-gray-700 dark:text-gray-300">Select Color:</span>
+                            <div class="flex items-center mt-2">
+                                <button class="w-6 h-6 rounded-full bg-gray-800 dark:bg-gray-200 mr-2"></button>
+                                <button class="w-6 h-6 rounded-full bg-red-500 dark:bg-red-700 mr-2"></button>
+                                <button class="w-6 h-6 rounded-full bg-blue-500 dark:bg-blue-700 mr-2"></button>
+                                <button class="w-6 h-6 rounded-full bg-yellow-500 dark:bg-yellow-700 mr-2"></button>
+                            </div>
+                        </div> {% endcomment %}
+        
+                        <!--Option for Size-->
+                        {% comment %} <div class="mb-4">
+                            <span class="font-bold text-gray-700 dark:text-gray-300">Select Size:</span>
+                            <div class="flex items-center mt-2">
+                                <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">S</button>
+                                <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">M</button>
+                                <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">L</button>
+                                <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">XL</button>
+                                <button class="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-400 dark:hover:bg-gray-600">XXL</button>
+                            </div>
+                        </div> {% endcomment %}
+        
                     </div>
-                    {% endif %}
+                        
+                    </div>
+                            <button type="submit" class="w-1/2 mt-6 bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">Add to Cart</button>                       
+                    </form>
+                    {% comment %} {% endif %} {% endcomment %}
                 </div>
             </div>
         </div>

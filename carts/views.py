@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import TemplateView
 
 from carts.models import Cart, CartItem
-from store.models import Product
+from store.models import Product, Variation
 
 TAX_RATE = 0.07
 
@@ -23,6 +23,22 @@ def _cart_id(request):
 
 def add_cart(request, product_id):
     product = Product.objects.get(id=product_id)
+    product_variation = []
+    if request.method == "POST":
+        for item in request.POST:
+            key = item
+            value = request.POST[key]
+
+            try:
+                #Check is key value pair from POST is present in the Variation db
+                variation = Variation.objects.get(product=product, variation_category__iexact=key, variation_value__iexact=value)
+                product_variation.append(variation)
+            except:
+                pass
+
+        # color = request.POST["color"]
+        # size = request.POST["size"]
+        # print(color, size)
 
     #Gets cart, creates one if none
     try:
@@ -33,17 +49,49 @@ def add_cart(request, product_id):
         )
     cart.save()
 
-    #Gets cart_item and increments quantity by 1, creates one if none
-    try:
-        cart_item = CartItem.objects.get(product=product, cart=cart)
-        cart_item.quantity += 1  
-        cart_item.save()
-    except CartItem.DoesNotExist:
+    #Gets cart_item and increments quantity by 1 if it is a match, creates one if none
+    is_cart_item_exists = CartItem.objects.filter(product=product, cart=cart).exists()
+    if is_cart_item_exists:
+        cart_item = CartItem.objects.filter(product=product, cart=cart)
+      
+        #Check if item matches a previously added variation
+        existing_var_list = []
+        id = []
+        for item in cart_item:
+            existing_variation = item.variations.all()
+            existing_var_list.append(list(existing_variation)) 
+            id.append(item.id)
+
+
+        #If true: increment quantity 
+        if product_variation in existing_var_list:
+           index = existing_var_list.index(product_variation)
+           item_id = id[index]
+           item = CartItem.objects.get(product=product, id=item_id)
+           item.quantity += 1
+           item.save()
+
+        #If false: create a new cart item
+        else:
+            item = CartItem.objects.create(product=product, quantity=1, cart=cart)
+            #Add variations to each cart_item
+            if len(product_variation) > 0:
+                item.variations.clear() #clears previous interation's variations
+                item.variations.add(*product_variation)
+
+            item.save()
+
+    #If matching cart_item does not exist, create one
+    else:
         cart_item = CartItem.objects.create(
             product = product,
             quantity = 1,
             cart = cart,
         )
+
+        if len(product_variation) > 0:
+            cart_item.variations.clear()
+            cart_item.variations.add(*product_variation)
         cart_item.save()
 
     #Sends user to their cart page
