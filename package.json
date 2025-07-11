@@ -1,5 +1,11 @@
 {
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.10"
+    "@tailwindcss/forms": "^0.5.10",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11"
+  },
+  "scripts": {
+    "build": "tailwindcss -i ./static/css/styles.css -o ./static/css/output.css --watch}"
   }
 }

@@ -61,9 +61,6 @@ class SearchView(ListView):
             keyword = self.request.GET["keyword"]
             if keyword:
                 queryset = Product.objects.order_by("-created_date").filter(Q(description_full__icontains=keyword) | Q(description_short__icontains=keyword) | Q(product_name__icontains=keyword))
-        # paginator = Paginator(queryset, 2)
-        # page = self.request.GET.get("page")
-        # paged_products = paginator.get_page(page)
-        
+    
         return queryset
     
