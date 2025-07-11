@@ -13,13 +13,20 @@ class CartView (TemplateView):
     context_object_name = "carts"
     ordering = ["-created_date"]
 
-
-#Gets current cart ID (session_id) / Makes one if not present
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
         cart = request.session.create()
     return cart
+
+def initialize_cart(request):
+    try:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+    except Cart.DoesNotExist:
+        cart = Cart.objects.create(
+        cart_id = _cart_id(request)
+        )
+    cart.save()
 
 def add_cart(request, product_id):
     product = Product.objects.get(id=product_id)
@@ -36,9 +43,6 @@ def add_cart(request, product_id):
             except:
                 pass
 
-        # color = request.POST["color"]
-        # size = request.POST["size"]
-        # print(color, size)
 
     #Gets cart, creates one if none
     try:
@@ -132,6 +136,7 @@ def clear_cart(request):
     return redirect("carts:cart")
 
 def cart(request, total=0, quantity=0, cart_items=None):
+    initialize_cart(request)
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request))
         cart_items = CartItem.objects.filter(cart=cart, is_active=True)
@@ -144,15 +149,17 @@ def cart(request, total=0, quantity=0, cart_items=None):
         formatted_tax = f"{tax:10.2f}"
         formatted_total = f"{total:10.2f}"
         formatted_grand_total = f"{grand_total:10.2f}"
+   
+
+        context = { 
+            "tax": formatted_tax,
+            "total": formatted_total,
+            "grand_total": formatted_grand_total,
+            "quantity": quantity,
+            "cart_items": cart_items,
+        }
+
+        return render(request, "cart.html", context)
+    
     except:
         pass
-
-    context = { 
-        "tax": formatted_tax,
-        "total": formatted_total,
-        "grand_total": formatted_grand_total,
-        "quantity": quantity,
-        "cart_items": cart_items,
-    }
-
-    return render(request, "cart.html", context)

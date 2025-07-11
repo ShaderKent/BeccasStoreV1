@@ -17,12 +17,16 @@
   
       <!-- Form Wrapper -->
       <div class="p-8 bg-white">
+        {% include "alerts.html" %}
+
         <!-- Login Form -->
-        <form class="space-y-6">
+        <form action="{% url "accounts:login" %}" method="POST" class="space-y-6">
+          {% csrf_token %}
           <div>
             <label class="block text-sm font-medium text-gray-600 mb-2">Email</label>
-            <input
+          <input
               type="email"
+              name="email"
               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 transition focus:shadow-lg"
               placeholder="example@example.com"
               required
@@ -30,8 +34,9 @@
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-600 mb-2">Password</label>
-            <input
+           <input
               type="password"
+              name="password"
               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 transition focus:shadow-lg"
               placeholder="••••••••"
               required

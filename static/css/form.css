@@ -1,0 +1,16 @@
+
+/* .form-control{
+    width: 100%;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 5%;
+    --tw-ring-color: purple;
+    /* border-radius: xl; */
+     /* py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-300 transition focus:shadow-lg */
+
+ 
+.form-control{
+    @apply bg-purple-600;
+}

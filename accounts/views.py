@@ -1,6 +1,9 @@
 from django.shortcuts import redirect
-from django.views.generic import FormView, TemplateView
-from django.contrib import messages
+from django.views.generic import FormView, TemplateView, View
+from django.contrib import messages, auth
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.forms import RegistrationForm
 from accounts.models import Account
 
@@ -23,7 +26,9 @@ class RegisterView(FormView):
                 username=form.cleaned_data["email"].split("@")[0],
                 password=form.cleaned_data["password"],
         )
+        user.is_active = True
         user.save()
+        login(self.request, user)
         messages.success(self.request, "Registration successful.")
         return redirect("accounts:register")
 
@@ -32,13 +37,29 @@ class RegisterView(FormView):
         messages.error(self.request, "Registration unsuccessful; Please try again.")
         return response
 
-        # return super(RegisterView, self).form_valid(form)
-
-    
 class LoginView(TemplateView):
     template_name = "accounts/login.html"
 
-    
+    def post(self, request):
+        if request.method == 'POST':
+            email = request.POST["email"]
+            password = request.POST["password"]
 
-class LogoutView(TemplateView):
-    pass
+            user = auth.authenticate(email=email, password=password)
+            
+            if user is not None:
+                auth.login(self.request, user)
+                return redirect("store:store")
+            else:
+                messages.error(self.request, "Invalid login credentials.")
+                return redirect("accounts:login")
+                
+        else:
+            messages.error(self.request, "Invalid login credentials.")
+            return redirect("accounts:login")
+
+@login_required(login_url = "accounts:login")
+def logout_view(request):
+    auth.logout(request)
+    messages.success(request, "You are now logged out.")
+    return redirect("accounts:login")
