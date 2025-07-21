@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import FormView, TemplateView, View
 from django.contrib import messages, auth
@@ -6,6 +7,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.forms import RegistrationForm
 from accounts.models import Account
+
+#Verification email
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from accounts.tokens import account_activation_token
+from django.core.mail import EmailMessage
+
 
 # Create your views here.
 class RegisterView(FormView):
@@ -26,16 +36,57 @@ class RegisterView(FormView):
                 username=form.cleaned_data["email"].split("@")[0],
                 password=form.cleaned_data["password"],
         )
-        user.is_active = True
+        # user.is_active = True
         user.save()
-        login(self.request, user)
-        messages.success(self.request, "Registration successful.")
+
+
+        #User Activation
+        current_site = get_current_site(self.request)
+        mail_subject = "Please activate your account."
+
+        #Passes a HTML template for the creation of an email. 
+        #   User data is passed in to allow for dyanamic content.
+        #   A token and uid are used to allow for secure communication
+        message = render_to_string("accounts/account_verification_email.html", {
+            "user": user,
+            "domain": current_site,
+            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+            "token": account_activation_token.make_token(user),
+        }) 
+        to_email = user.email
+        send_email = EmailMessage(mail_subject, message, to=[to_email])
+        send_email.send()
+    
+        messages.success(self.request, "Thank you for registering with us.")
+        messages.success(self.request, "An email has been sent your email address, please click the provided link to activate your account.")
         return redirect("accounts:register")
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
         messages.error(self.request, "Registration unsuccessful; Please try again.")
         return response
+
+def activate_view(request, uidb64, token):
+    # When the activation email is confirmed
+    try:
+        #Decode uid from passed in uidb64
+        uid = urlsafe_base64_decode(uidb64).decode()
+        #Query user object based off uid
+        user = Account._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
+        user = None
+
+    #If user exists, activate user
+    # if user is not None and default_token_generator.check_token(user, token):
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, "Congratulations, your account is activated.")
+        return redirect("accounts:login")
+    else:
+        messages.error(request, "Invalid activation link.")
+        return redirect("accounts:register")
+    
 
 class LoginView(TemplateView):
     template_name = "accounts/login.html"

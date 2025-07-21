@@ -1,0 +1,9 @@
+{% autoescape off %}
+
+Hello {{user.first_name}},
+
+Please click on the link below to confirm your account.
+http://{{domain}}{% url "accounts:activate" uidb64=uid token=token %}
+
+If think this email has been sent incorrectly, please ignore this email.
+{% endautoescape %}
