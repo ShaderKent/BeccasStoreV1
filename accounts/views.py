@@ -16,6 +16,12 @@ from django.utils.encoding import force_bytes
 from accounts.tokens import account_activation_token, password_reset_token
 from django.core.mail import EmailMessage
 
+from carts.models import Cart, CartItem
+from carts.views import _cart_id
+
+#Redirection
+import requests
+
 
 # Create your views here.
 class RegisterView(FormView):
@@ -99,8 +105,62 @@ class LoginView(TemplateView):
             user = auth.authenticate(email=email, password=password)
             
             if user is not None:
+                #Handles assigning an existing cart to user when user logs in
+                try:
+                    cart = Cart.objects.get(cart_id=_cart_id(self.request))
+                    is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
+                    if is_cart_item_exists:
+                        cart_item = CartItem.objects.filter(cart=cart)
+
+                        #Gets product variations by cart id
+                        product_variation = []
+                        for item in cart_item:
+                            variation = item.variations.all()
+                            product_variation.append(list(variation))
+
+                        # Get the cart items from the user to access their product variations
+                        cart_item = CartItem.objects.filter(user=user)
+        
+                        existing_var_list = []
+                        id = []
+                        for item in cart_item:
+                            existing_variation = item.variations.all()
+                            existing_var_list.append(list(existing_variation)) 
+                            id.append(item.id)
+
+                        #Checks if any of the products/variations match, if so combine them.
+                        #This prevents there being multiple entries of the same product (1 and 1 instead of 2)
+                        for pr in product_variation:
+                            if pr in existing_var_list:
+                                index = existing_var_list.index(pr)
+                                item_id = id[index]
+                                item = CartItem.objects.get(id=item_id)
+                                item.quantity += 1
+                                item.user = user
+                                item.save()
+                            else:
+                                cart_item = CartItem.objects.filter(cart=cart)
+                                for item in cart_item:
+                                    item.user = user
+                                    item.save()
+                except:
+                    pass
+
                 auth.login(self.request, user)
-                return redirect("store:store")
+
+                #Handles cases where "next" is passed as a param, redirecting to that page after login
+                url = self.request.META.get("HTTP_REFERER")
+                try:
+                    query = requests.utils.urlparse(url).query
+                    params = dict(x.split("=") for x in query.split("&"))
+                    if "next" in params:
+                        nextPage = params["next"]
+                        return redirect(nextPage)
+                
+                #Standard redirect after login
+                except:
+                    return redirect("store:store")
+                    
             else:
                 messages.error(self.request, "Invalid login credentials.")
                 return redirect("accounts:login")
@@ -156,8 +216,7 @@ def reset_password_validate(request, uidb64, token):
     except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
         user = None
 
-    #If user exists, activate user
-    # if user is not None and default_token_generator.check_token(user, token):
+    #If user exists, redirect and allow password to be reset
     if user is not None and password_reset_token.check_token(user, token):
         request.session["uid"] = uid
         messages.success(request, "Please reset your password.")
